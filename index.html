@@ -1,130 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For You ❤️</title>
-  <style>
-    body {
-      background: linear-gradient(#ff9a9e, #fad0c4);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* The Flower Container */
-    #flower-container {
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    #flower-container:hover {
-      transform: scale(1.1);
-    }
-
-    /* Simple Pink Flower using CSS */
-    .flower {
-      font-size: 80px;
-      display: block;
-    }
-
-    /* Login Box - Hidden by default */
-    #login-box {
-      display: none;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      width: 280px;
-      animation: fadeIn 1s ease-in;
-    }
-
-    h1 { color: #d63384; margin-bottom: 10px; }
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ffb6c1;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #ff6b81;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* Heart Animation Styles */
-    .heart {
-      position: absolute;
-      color: #ff4d6d;
-      font-size: 20px;
-      user-select: none;
-      animation: fly 2s linear forwards;
-    }
-
-    @keyframes fly {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-500px) rotate(45deg) scale(0.5); opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? ❤️</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="full-bg"></div>
 
-  <div id="flower-container" onclick="showLogin()">
-    <div class="flower">🌸</div>
-    <p style="color: white; font-weight: bold;">Click the flower...</p>
-  </div>
+    <div class="card">
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
 
-  <div id="login-box">
-    <h1>Hi Love 💕</h1>
-    <p>Please log in to see your surprise.</p>
-    <input type="katrin" placeholder="Username">
-    <input type="040745" placeholder="Password">
-    <br>
-    <button onclick="alert('I love you!')">Login</button>
-  </div>
-
-  <script>
-    function showLogin() {
-      // 1. Create burst of hearts
-      for (let i = 0; i < 15; i++) {
-        createHeart();
-      }
-
-      // 2. Hide flower, show login
-      document.getElementById('flower-container').style.display = 'none';
-      document.getElementById('login-box').style.display = 'block';
-    }
-
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.top = '80vh';
-      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-      heart.style.duration = (Math.random() * 1 + 1) + 's';
-      
-      document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 2000);
-    }
-  </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
