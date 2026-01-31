@@ -9,13 +9,39 @@
 <body>
     <div id="full-bg"></div>
 
-    <div class="card">
-        <h1 id="question">Will you be my Valentine? ❤️</h1>
-        <div class="buttons">
-            <button id="yesBtn">Yes!</button>
-            <button id="noBtn">No</button>
+<div class="card">
+    <div class="gif-container">
+        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExb25renpiNTdhaDVpbXl2MW05dzN2b3VpcWJ0eXY2OHJ6aWI2aWNmeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XYEEvoX0Ub69ZgN9ai/giphy.gif" alt="Asking GIF" id="main-gif">
+    </div>
+    
+    <h1 id="question">Will you be my Valentine? ❤️</h1>
+    <div class="buttons">
+        <button id="yesBtn">Yes!</button>
+        <button id="noBtn">No</button>
+    </div>
+</div>
+<div id="loading-screen" style="display: none;">
+    <p style="margin: 0; font-size: 1rem;">Preparing something special...</p>
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+</div>
+
+<div id="final-scene" style="display: none;">
+    <div class="elements-container">
+        <div class="item" onclick="openLetter()">
+            <img src="images/letter.png" alt="Email"> 
+        </div>
+        <div class="item" onclick="showPhoto()">
+            <img src="images/flower.png" alt="Flowers">
+
         </div>
     </div>
+</div>
+
+<div id="photo-overlay" onclick="this.style.display='none'">
+    <img src="images/us.jpg" id="us-photo"> <p style="color: white;">Click anywhere to close</p>
+</div>
 
     <script src="script.js"></script>
 </body>
