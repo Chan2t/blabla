@@ -1,0 +1,75 @@
+const photoContainer = document.getElementById('photo-bg');
+
+const myPhotos = [
+    'images/photo1.jpg',
+    'images/photo2.jpg',
+    'images/photo3.jpg',
+    'images/photo4.jpg',
+    'images/IMG_20251012_110932.jpg',
+    'images/Screenshot_20251223_181255_com.huawei.himovie.overseas_edit_23148888553757.jpg',
+    'images/Screenshot_20251223_181317_com.huawei.himovie.overseas_edit_23159730117297.jpg',
+    'images/IMG_20251224_102737.jpg',
+    'images/photo3.jpg',
+    'images/IMG_20251222_233249_edit_53888447164692-removebg-preview.png',
+    'images/20251012183035363.jpg',
+    'images/photo2.jpg',
+    'images/photo1.jpg',
+    'images/IMG_20251012_110932.jpg',
+];
+
+function placePhotos() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    // Divide screen into a 3x2 grid (adjust based on how many photos you have)
+    const cols = 3; 
+    const rows = 2;
+    const cellWidth = screenWidth / cols;
+    const cellHeight = screenHeight / rows;
+
+    let photoIndex = 0;
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (photoIndex >= myPhotos.length) break;
+
+            const img = document.createElement('img');
+            img.src = myPhotos[photoIndex];
+            img.classList.add('bg-photo');
+
+            // Calculate center of the cell
+            const centerX = c * cellWidth + (cellWidth / 2);
+            const centerY = r * cellHeight + (cellHeight / 2);
+
+            // Add a "jitter" so they aren't perfectly aligned like a boring table
+            // This moves them randomly within their own cell
+            const jitterX = (Math.random() - 0.5) * (cellWidth * 0.5);
+            const jitterY = (Math.random() - 0.5) * (cellHeight * 0.5);
+
+            const finalX = centerX + jitterX - 100; // Subtract half image width
+            const finalY = centerY + jitterY - 100; // Subtract half image height
+            const randomRotation = Math.floor(Math.random() * 30) - 15;
+
+            img.style.left = `${finalX}px`;
+            img.style.top = `${finalY}px`;
+            img.style.transform = `rotate(${randomRotation}deg)`;
+
+            photoContainer.appendChild(img);
+            photoIndex++;
+        }
+    }
+}
+
+placePhotos();
+
+// No button logic remains the same
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mouseover', () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+});
+
+document.getElementById('yesBtn').onclick = () => alert("Yay! ❤️");
