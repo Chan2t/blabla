@@ -21,24 +21,45 @@ body, html {
     inset: 0;
     background: url('blabla.jpg') no-repeat center center;
     background-size: cover;
-    filter: blur(20px);
+    filter: blur(5px);
     transition: filter 1.5s ease;
     z-index: -1;
 }
 
 #full-bg.clear {
-    filter: blur(0px);
+    filter: blur(5px);
 }
 
-/* Card */
 .card {
-    background: rgba(255, 255, 255, 0.92);
-    padding: 50px 60px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
     border-radius: 35px;
     text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    
+    /* The Outline: A soft, pink-to-white double border */
+    border: 8px solid white;
+    outline: 2px solid #ffb6c1; 
+    
     max-width: 420px;
-    animation: popIn 0.6s ease;
+    animation: popIn 0.6s ease, float 3s ease-in-out infinite; /* Added float */
+}
+
+/* GIF Styling */
+.gif-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#main-gif {
+    width: 150px; /* Adjust size as needed */
+    border-radius: 15px;
+}
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 /* Title */
@@ -71,16 +92,28 @@ button {
     background: linear-gradient(135deg, #ff4081, #ff6f91);
     color: white;
     box-shadow: 0 8px 20px rgba(255, 64, 129, 0.4);
+    transition: transform 0.3s ease-out; 
 }
 
 #yesBtn:hover {
     transform: scale(1.08);
 }
 
-/* NO button */
 #noBtn {
     background: #e0e0e0;
     color: #555;
+    transition: left 0.2s ease, top 0.2s ease, transform 0.1s;
+    z-index: 10;
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 90%;
+        padding: 30px;
+    }
+    #question {
+        font-size: 1.5rem;
+    }
 }
 
 #noBtn:hover {
@@ -97,4 +130,146 @@ button {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+.heart-particle {
+    position: fixed;
+    left: 50%; /* Start in the middle */
+    top: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    /* This animation uses the variables we set in JS */
+    animation: explode 1.5s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        /* Move to the random coordinates provided by JS */
+        transform: translate(var(--x), var(--y)) scale(1) rotate(var(--r));
+        opacity: 0;
+    }
+}
+
+#loading-screen {
+    position: fixed;    /* This is the magic line! */
+    top: 20px;          /* Distance from the very top of the screen */
+    left: 50%;          /* Move to middle */
+    transform: translateX(-50%); /* Perfectly centers it */
+    
+    /* The rest of your styles */
+    background: white;
+    padding: 20px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 9999;      /* Ensure it sits on top of the card */
+    text-align: center;
+    border: 3px solid #ffebee;
+    display: none;      /* Kept hidden until JS shows it */
+}
+
+@keyframes slideDown {
+    from { transform: translate(-50%, -100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* Update these specific lines in your CSS */
+
+.progress-container {
+    width: 200px;
+    height: 12px;           /* Changed from 100% to a fixed height */
+    background: #f0f0f0;    /* Light grey background so the pink bar stands out */
+    border-radius: 10px;
+    margin: 15px auto 0 auto;
+    overflow: hidden;
+    border: 1px solid #eee; /* Optional: subtle border */
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;           /* This fills the 12px height of the container */
+    background: linear-gradient(90deg, #ff4081, #ff80ab);
+    border-radius: 10px;
+    animation: grow 3s linear forwards; /* Matches your 3s Javascript timer */
+}
+
+@keyframes grow {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+/* Ensure the progress bar looks slim and clean */
+.progress-container {
+    width: 200px;
+    height: 8px; /* Slightly slimmer */
+    background: #eee;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+/* Make Final Icons Bigger */
+.item img {
+    width: 250px; /* Increased size */
+    height: 250px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* ... Keep your existing CSS up to the Final Scene ... */
+
+/* Final scene background blur - ADJUSTED FOR VISIBILITY */
+#final-scene {
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(3px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+}
+
+.elements-container {
+    display: flex;
+    gap: 60px; /* Increased gap for larger icons */
+}
+
+.item {
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.item:hover { transform: scale(1.1); }
+
+/* Make Final Icons Bigger */
+.item img {
+    width: 250px; 
+    height: 250px;
+    object-fit: contain;
+    border-radius: 20px;
+}
+
+.item p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ff4081;
+    margin-top: 15px;
+}
+
+/* Photo Overlay */
+#photo-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
 }
