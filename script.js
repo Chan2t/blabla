@@ -5,9 +5,12 @@ const mainCard = document.getElementById('main-card');
 const loadingScreen = document.getElementById('loading-screen');
 const progressBar = document.querySelector('.progress-bar');
 const finalScene = document.getElementById('final-scene');
+const musicBtn = document.getElementById("musicBtn");
+const letterMusic = document.getElementById("letterMusic");
 
 let yesScale = 1;
 let noClicks = 0;
+let isPlaying = false;
 
 const messages = [
     "No", "Are you sure? 🥺", "Priittii pwease?? 🥺👉👈", "u no no lab me na?",
@@ -33,7 +36,29 @@ function createBackgroundHearts() {
 }
 createBackgroundHearts();
 
+const startDate = new Date("2024-03-31T00:00:00"); 
+
+function updateRelationshipCounter() {
+    const now = new Date();
+    const difference = now - startDate;
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((difference / 1000 / 60) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    document.getElementById("days").innerText = String(days).padStart(2, '0');
+    document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+    document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+    document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+}
+setInterval(updateRelationshipCounter, 1000);
+
+
 document.addEventListener("click", (e) => {
+
+    if (e.target.tagName === 'BUTTON' || e.target.closest('.item')) return;
+
     const heart = document.createElement("div");
     heart.innerHTML = "❤️";
     heart.style.position = "fixed";
@@ -41,30 +66,34 @@ document.addEventListener("click", (e) => {
     heart.style.top = e.clientY + "px";
     heart.style.fontSize = "20px";
     heart.style.pointerEvents = "none";
+    heart.style.zIndex = "999999";
+    heart.style.transition = "transform 1s ease, opacity 1s ease";
     document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.style.transform = `translateY(-50px) scale(1.5)`;
+        heart.style.opacity = "0";
+    }, 10);
 
     setTimeout(() => heart.remove(), 1000);
 });
 
-const rainContainer = document.getElementById("rain-container");
-let rainInterval;
 
-const drop = document.createElement("div");
-drop.innerHTML = "🌸";
-drop.classList.add("rain-drop");
-drop.style.left = Math.random() * 100 + "vw";
-drop.style.animationDuration = (Math.random() * 2 + 2) + "s";
-rainContainer.appendChild(drop);
+musicBtn.addEventListener("click", () => {
+    if (!isPlaying) {
+        letterMusic.play().catch(err => console.log("Audio playback blocked: ", err));
+        musicBtn.innerHTML = "🔊";
+        musicBtn.classList.add('playing');
+        isPlaying = true;
+    } else {
+        letterMusic.pause();
+        musicBtn.innerHTML = "🎵";
+        musicBtn.classList.remove('playing');
+        isPlaying = false;
+    }
+});
 
-setTimeout(() => drop.remove(), 5000);
-
-function stopRain() {
-    rainContainer.style.display = "none";
-    clearInterval(rainInterval);
-    rainContainer.innerHTML = "";
-}
-
-
+// Runaway No Button Action
 function moveNoButton(e) {
     if(e) e.preventDefault(); 
 
@@ -77,7 +106,6 @@ function moveNoButton(e) {
 
     questionText.style.transform = `translateX(${Math.sin(noClicks) * 8}px)`;
     setTimeout(() => { questionText.style.transform = 'translateX(0)'; }, 100);
-
 
     const padding = 30; 
     const maxX = window.innerWidth - noBtn.offsetWidth - padding;
@@ -94,19 +122,17 @@ function moveNoButton(e) {
 noBtn.addEventListener('mouseover', moveNoButton);
 noBtn.addEventListener('touchstart', moveNoButton);
 
-yesBtn.addEventListener('click', () => {
 
+yesBtn.addEventListener('click', () => {
     questionText.innerText = "I knew you'd say yes! ❤️";
     document.querySelector('.buttons').style.display = 'none';
     
     const gif = document.getElementById('main-gif');
     gif.src = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWltdWJsYWRyOWRuaGZsMHRxYnplajZzOXM2NGV0d2NoYjFoeWczciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/X9wZY0FtBmwHCp8QBm/giphy.gif"; 
 
-
     for (let i = 0; i < 75; i++) {
         createHeartExplosion();
     }
-
 
     setTimeout(() => {
         loadingScreen.classList.add('active');
@@ -120,6 +146,7 @@ yesBtn.addEventListener('click', () => {
             setTimeout(() => {
                 mainCard.style.display = 'none';
                 finalScene.style.display = 'flex';
+                updateRelationshipCounter(); 
                 setTimeout(() => { finalScene.style.opacity = '1'; }, 50);
             }, 500);
         }, 2800);
@@ -155,18 +182,41 @@ function openLetter() {
 }
 
 function closeLetter() {
+    letterMusic.pause();
+    letterMusic.currentTime = 0;
+    musicBtn.innerHTML = "🎵";
+    musicBtn.classList.remove('playing');
+    isPlaying = false;
+    
     const el = document.getElementById('letter-overlay');
     el.style.opacity = '0';
     setTimeout(() => el.style.display = 'none', 300);
 }
 
+const photoMusic = document.getElementById("photoMusic");
+
 function showPhoto() {
+
+    if (isPlaying) {
+        letterMusic.pause();
+        musicBtn.innerHTML = "🎵";
+        musicBtn.classList.remove('playing');
+        isPlaying = false;
+    }
+
+
+    photoMusic.play().catch(err => console.log("Photo music blocked:", err));
+
     const el = document.getElementById('photo-overlay');
     el.style.display = 'flex';
     setTimeout(() => el.style.opacity = '1', 10);
 }
 
 function closePhoto() {
+
+    photoMusic.pause();
+    photoMusic.currentTime = 0;
+
     const el = document.getElementById('photo-overlay');
     el.style.opacity = '0';
     setTimeout(() => el.style.display = 'none', 300);
