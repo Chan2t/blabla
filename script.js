@@ -18,6 +18,7 @@ const messages = [
     "sigee na kasii", "kiiss kitaaa", "ayyy ayawww", "haha cuteee", "sakiitt mo be"
 ];
 
+// Initialize Background Floating Hearts
 function createBackgroundHearts() {
     const container = document.getElementById('floating-hearts-container');
     if(!container) return;
@@ -54,9 +55,9 @@ function updateRelationshipCounter() {
 }
 setInterval(updateRelationshipCounter, 1000);
 
-
+// Screen Click Micro-hearts effect
 document.addEventListener("click", (e) => {
-
+    // Prevent creating micro hearts when clicking interactive buttons
     if (e.target.tagName === 'BUTTON' || e.target.closest('.item')) return;
 
     const heart = document.createElement("div");
@@ -78,7 +79,7 @@ document.addEventListener("click", (e) => {
     setTimeout(() => heart.remove(), 1000);
 });
 
-
+// Music Toggle Control
 musicBtn.addEventListener("click", () => {
     if (!isPlaying) {
         letterMusic.play().catch(err => console.log("Audio playback blocked: ", err));
@@ -122,7 +123,7 @@ function moveNoButton(e) {
 noBtn.addEventListener('mouseover', moveNoButton);
 noBtn.addEventListener('touchstart', moveNoButton);
 
-
+// Yes Button Action Sequence
 yesBtn.addEventListener('click', () => {
     questionText.innerText = "I knew you'd say yes! ❤️";
     document.querySelector('.buttons').style.display = 'none';
@@ -195,8 +196,64 @@ function closeLetter() {
 
 const photoMusic = document.getElementById("photoMusic");
 
-function showPhoto() {
+// List your 20 photos and their handwritten captions here
+const myPhotos = [
+    { src: "images/us1.jpg", caption: "Where it all started..." },
+    { src: "images/us2.jpg", caption: "yourr eeepy eyes nyaha" },
+    { src: "images/us3.jpg", caption: "My favorite person forever & always" },
+    { src: "images/us4.jpg", caption: "Our first date (kinda)" },
+    { src: "images/us5.jpg", caption: "Looky at that botifor smile!" },
+    { src: "images/us6.jpg", caption: "I love holding your hand" },
+    { src: "images/us7.jpg", caption: "Random goofy moments with you wkwk" },
+    { src: "images/us8.jpg", caption: "Every second with you is a gift" },
+    { src: "images/us9.jpg", caption: "My favorite view in the world" },
+    { src: "images/us10.jpg", caption: "That sweet, innocent look (lah)" },
+    { src: "images/us11.jpg", caption: "The girl I've been waiting for" },
+    { src: "images/us12.jpg", caption: "Warm hugs and fuzzy feelings" },
+    { src: "images/us13.jpg", caption: "Making memories together" },
+    { src: "images/us14.jpg", caption: "Always proud of you, priti girly!" },
+    { src: "images/us15.jpg", caption: "Through thick and thin (jok jok lang)" },
+    { src: "images/us16.jpg", caption: "You make my heart skip a beat " },
+    { src: "images/us17.jpg", caption: "My peace and comfort zone" },
+    { src: "images/us18.jpg", caption: "Cant wait for our next date" },
+    { src: "images/us19.jpg", caption: "Forever kitang iaask to be my Valentine" },
+    { src: "images/us20.jpg", caption: "I love you always and forever, mahal" }
+];
 
+// Function to automatically build the 20 Polaroids on the screen
+function buildPolaroidStack() {
+    const stack = document.getElementById("polaroid-stack");
+    stack.innerHTML = ""; // Clear existing
+
+    // Loop backward so the first item in the array ends up on TOP
+    for (let i = myPhotos.length - 1; i >= 0; i--) {
+        const item = myPhotos[i];
+        
+        const card = document.createElement("div");
+        card.classList.add("polaroid-card");
+        
+        // Give it a subtle initial rotation so it looks like a loose pile
+        const randomTilt = (Math.random() * 8) - 4; // between -4 and +4 degrees
+        card.style.transform = `rotate(${randomTilt}deg)`;
+        card.style.zIndex = myPhotos.length - i; // Sets the layer order perfectly
+
+        card.innerHTML = `
+            <img src="${item.src}" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600'">
+            <p class="polaroid-caption">${item.caption}</p>
+        `;
+
+        // Attach the click event handler
+        card.addEventListener("click", () => rotatePolaroid(card));
+        
+        stack.appendChild(card);
+    }
+}
+
+// Call this function once right away to prepare the pile
+buildPolaroidStack();
+
+function showPhoto() {
+    // If she is reading the letter with music on, pause it so they don't play at the same time
     if (isPlaying) {
         letterMusic.pause();
         musicBtn.innerHTML = "🎵";
@@ -204,7 +261,7 @@ function showPhoto() {
         isPlaying = false;
     }
 
-
+    // Play photo music automatically
     photoMusic.play().catch(err => console.log("Photo music blocked:", err));
 
     const el = document.getElementById('photo-overlay');
@@ -213,7 +270,7 @@ function showPhoto() {
 }
 
 function closePhoto() {
-
+    // Automatically stop the photo music and reset it to the beginning
     photoMusic.pause();
     photoMusic.currentTime = 0;
 
