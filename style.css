@@ -1,6 +1,4 @@
 /* Clean Reset and Base */
-
-
 *{
     box-sizing: border-box;
     margin: 0;
@@ -515,11 +513,6 @@ button {
     margin-top: 15px;
     font-weight: 600;
 }
-
-/* Fan out the cards dynamically with organic-looking tilts */
-.polaroid-card:nth-child(1) { transform: rotate(-3deg); z-index: 3; }
-.polaroid-card:nth-child(2) { transform: rotate(4deg); z-index: 2; }
-.polaroid-card:nth-child(3) { transform: rotate(-1deg); z-index: 1; }
 
 /* Swipe away animation class triggers */
 .polaroid-card.swipe-away {
