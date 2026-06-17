@@ -220,6 +220,36 @@ const myPhotos = [
     { src: "images/us20.jpg", caption: "I love you always and forever, mahal" }
 ];
 
+// Function to cycle the Polaroid stack when clicked
+function rotatePolaroid(card) {
+    // Prevent cycling if the card is already in motion
+    if (card.classList.contains('swipe-away')) return;
+
+    const stack = card.parentElement;
+    const cards = Array.from(stack.children);
+    
+    // Only cycle if there's more than 1 photo
+    if (cards.length <= 1) return;
+
+    // Trigger the fly away swipe animation
+    card.classList.add('swipe-away');
+
+    setTimeout(() => {
+        // Move the swiped card visually to the absolute bottom of the DOM layout
+        stack.insertBefore(card, stack.firstChild);
+        card.classList.remove('swipe-away');
+        
+        // Recalculate z-indexing and minor random tilts for the new stack configuration
+        const updatedCards = Array.from(stack.children);
+        updatedCards.forEach((c, index) => {
+            // Give them random minor variations so they look piled organically
+            const rotationDegrees = ((index % 3) * 3) - 3 + (Math.random() * 2);
+            c.style.zIndex = index + 1;
+            c.style.transform = `rotate(${rotationDegrees}deg)`;
+        });
+    }, 450); // Matches the swipe CSS timer precisely
+}
+
 // Function to automatically build the 20 Polaroids on the screen
 function buildPolaroidStack() {
     const stack = document.getElementById("polaroid-stack");
