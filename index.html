@@ -29,8 +29,18 @@
         </div>
     </div>
 
-    <div id="final-scene">
+    <div id="photo-overlay" onclick="closePhoto()">
+        <div class="polaroid-stack-container" onclick="event.stopPropagation()">
+            
+            <!-- JavaScript will insert all 20 cards inside here -->
+            <div class="polaroid-stack" id="polaroid-stack"></div>
 
+            <p class="close-hint">✨ Tap a photo to flip through • Tap outside to close</p>
+        </div>
+    </div>
+
+    <div id="final-scene">
+        <!-- Live Ticking Clock Container Added Safely -->
         <div class="counter-section">
             <h3>How long I've loved you:</h3>
             <div id="relationship-counter">
