@@ -29,7 +29,7 @@ body, html {
 #full-bg::before {
     content: "";
     position: absolute;
-    inset: -20px; 
+    inset: -20px; /* prevents blur edges */
     background: url('blabla.jpg') center center/cover no-repeat;
     filter: blur(8px);
 }
@@ -319,8 +319,9 @@ button {
     animation: floatUp infinite linear;
 }
 
+/* Position the music button securely relative to the letter layout */
 .letter-modal {
-    position: relative; 
+    position: relative; /* Lock absolute coordinates inside the modal card */
 }
 
 .music-btn {
@@ -354,6 +355,7 @@ button {
     to { transform: rotate(360deg); }
 }
 
+/* Redefining the Final Interactive Scene layout with the Counter section */
 #final-scene {
     display: none;
     flex-direction: column;
@@ -427,6 +429,7 @@ button {
     }
 }
 
+/* Keyframe Animations */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -454,8 +457,73 @@ button {
     to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
+/* Tablet / Desktop Scalings */
 @media (min-width: 768px) {
     #question { font-size: 1.9rem; }
     .item img { width: 180px; height: 180px; }
     .letter-modal { padding: 40px; }
+}
+
+/* Polaroid Gallery Layout Container */
+.polaroid-stack-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    height: 480px;
+}
+
+.polaroid-stack {
+    position: relative;
+    width: 320px;
+    height: 380px;
+    margin-bottom: 20px;
+}
+
+/* Individual Polaroid Framing */
+.polaroid-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    padding: 16px 16px 24px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease, z-index 0s;
+    transform-origin: center center;
+}
+
+.polaroid-card img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    border: 1px solid #eaeaea;
+    border-radius: 2px;
+}
+
+/* Handwritten Typography Style */
+.polaroid-caption {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #444444;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+/* Fan out the cards dynamically with organic-looking tilts */
+.polaroid-card:nth-child(1) { transform: rotate(-3deg); z-index: 3; }
+.polaroid-card:nth-child(2) { transform: rotate(4deg); z-index: 2; }
+.polaroid-card:nth-child(3) { transform: rotate(-1deg); z-index: 1; }
+
+/* Swipe away animation class triggers */
+.polaroid-card.swipe-away {
+    transform: translate(150%, -20px) rotate(25deg) scale(0.9) !important;
+    opacity: 0;
+    z-index: 10;
 }
