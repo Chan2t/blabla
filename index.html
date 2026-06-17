@@ -4,44 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Be My Valentine? ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="full-bg"></div>
-
-<div class="card">
-    <div class="gif-container">
-        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExb25renpiNTdhaDVpbXl2MW05dzN2b3VpcWJ0eXY2OHJ6aWI2aWNmeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XYEEvoX0Ub69ZgN9ai/giphy.gif" alt="Asking GIF" id="main-gif">
-    </div>
+    <div id="floating-hearts-container"></div>
     
-    <h1 id="question">Will you be my Valentine? ❤️</h1>
-    <div class="buttons">
-        <button id="yesBtn">Yes!</button>
-        <button id="noBtn">No</button>
-    </div>
-</div>
-<div id="loading-screen" style="display: none;">
-    <p style="margin: 0; font-size: 1rem;">Preparing something special...</p>
-    <div class="progress-container">
-        <div class="progress-bar"></div>
-    </div>
-</div>
-
-<div id="final-scene" style="display: none;">
-    <div class="elements-container">
-        <div class="item" onclick="openLetter()">
-            <img src="images/letter.png" alt="Email"> 
+    <div class="card" id="main-card">
+        <div class="gif-container">
+            <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExb25renpiNTdhaDVpbXl2MW05dzN2b3VpcWJ0eXY2OHJ6aWI2aWNmeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XYEEvoX0Ub69ZgN9ai/giphy.gif" alt="Asking GIF" id="main-gif">
         </div>
-        <div class="item" onclick="showPhoto()">
-            <img src="images/flower.png" alt="Flowers">
-
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
         </div>
     </div>
-</div>
 
-<div id="photo-overlay" onclick="this.style.display='none'">
-    <img src="images/us.jpg" id="us-photo"> <p style="color: white;">Click anywhere to close</p>
-</div>
+    <div id="rain-container"></div>
+
+        <div id="loading-screen">
+            <p class="loading-text">Preparing something special...</p>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+    <div id="final-scene">
+        <div class="elements-container">
+            <div class="item" onclick="openLetter()">
+                <div class="img-wrapper">
+                    <img src="images/letter.png" alt="Letter Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3199/3199925.png'"> 
+                </div>
+                <p>Read Me ✨</p>
+            </div>
+            <div class="item" onclick="showPhoto()">
+                <div class="img-wrapper">
+                    <img src="images/flower.png" alt="Flowers Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/864/864812.png'">
+                </div>
+                <p>For You 🌸</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="photo-overlay" onclick="closePhoto()">
+        <div class="overlay-card" onclick="event.stopPropagation()">
+            <img src="blabla.jpg" id="us-photo" alt="Us" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600'">
+            <p class="close-hint">Tap anywhere outside to close</p>
+        </div>
+    </div>
+
+    <div id="letter-overlay" onclick="closeLetter()">
+        <div class="letter-modal" onclick="event.stopPropagation()">
+            <h2>for my labi dabi wub wub 💌</h2>
+            <div class="letter-content">
+                <p>hi mahal as you reading this message, you probably gonna look at me like girl you did this? but heack yah, i tried to be as poetically as possible but my goofy ass you more cant.</p>
+                <p>Anyway i would like to express the highest form of gratitude for my beloved wife with 3 healthy kids, as i writing this down i cant think of how much lucky i am to have you, alam mo naman po na im super duper tawsan milyon bilyon trilyon grateful to have you in this fucked up world, paano ba mag long misig hindi ako marunong i kinda think this is nonsense talk of me but anyway this message is only for expressing how much im happi to hab you as my everything, thank you mahal for giving love i was looking for, i write this down and u are sleeping na i constantly looking at your sleepy eyes kasi it so beautiful and calming hihi. i love you so much mahal im happy to be your Valentine this year and for the next next next year and forever kitang iaask to be your Valentine nyaha</p>
+                <p>I sill remember the first time we kissed, so innocent, warm, wonderful, and a bit awkward kasi hindi ako marunong. i never felt that one before and it so special kasi i get it from you (the long time girl I've been waiting for) in that very moment lovie i just closed my eyes and feel your touch, as u kissing me i felt butterflies for the first time and it so so so so calming, it's so genuine and pure. i'll forever be grateful on how u hold my face, my hands, my arms, and how u embrace yourself with me, your kisses, your reassuring words, your warm breath, and the softness of your hands makes think how much lucky i am in this world.</p>
+                <p>Happy valentines mahal, nawawalan na ako ng mga words na sasabihin hihi all i can think and feel is im happy to have you, im happy to be your boyfriend well not yet but i will keep on pursuing you even if sagutin mona ako or magkaanak na tayo whatsoever, hindi ron matatapos yung pang liligaw ko sa'yo, hindi lang hanggang duon but rather i will continue it until my last breath.</p>
+                <p>Im sorry too lovie, for the things na i did hurt you, things na i dont know na it hurts you, things na hindi ko naipaparamdam, things a hindi ko nagagawa kasi im here malayo, things na hindi mo maranasan as normal couple kasi hindi tayo magkatabi, but the thing is thank you kasi you understand my struggles and you let me grow and become matured to know many things na hindi ko alam na need ganito pala, kailangan ganito ganiyan.</p>
+                <p>Thank you mahal, first for loving me endlessly even na im not that perfect you still give the purest and genuine love i could ever feel, second for guiding me towards my success, the lesson u said, the pagsesermon na palagi kong tinatandaan not to be bad but to make it as lesson, third but not the last is that you making me feel so alive ever than before, your prescence, your touch, and your kindness make me the luckiest person in this world.</p>
+                <p>I love you so much love, mahal na mahal kita higit pa sa inaakala mo, i cant wait to live in the same house with you and fulfilling all your dreams kasi all your dreams become my number 1 priority kasi lablab kita hihi. Take care always mahal, im so proud of you my baby big girly, if u think they hate you we hate them the most, if you think no one love you just look at me im here standing looking at you like in the midst of the crowd. I will always look for you, proud for you, take care for you, and love you wholeheartedly no matter what happens ❤</p>
+                <p> </p>
+                <p>I love you always and forever.</p>
+                <p>- your crush</p>    
+            </div>
+            <button class="close-letter-btn" onclick="closeLetter()">Close Letter ❤️</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
