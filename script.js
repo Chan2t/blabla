@@ -1,85 +1,173 @@
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
-const bg = document.getElementById('full-bg');
 const questionText = document.getElementById('question');
+const mainCard = document.getElementById('main-card');
+const loadingScreen = document.getElementById('loading-screen');
+const progressBar = document.querySelector('.progress-bar');
+const finalScene = document.getElementById('final-scene');
 
-let yesSize = 1;
+let yesScale = 1;
 let noClicks = 0;
 
 const messages = [
-    "No", "are you sure?", "priittii pwease?? 🥺", "u no no lab me na?",
-    "plss plssss💔", "u brik my hart na!", "sige mamaya na?", "awts lods",
-    "sigee na kasii", "kiiss kitaaa", "ayyy ayawww", "haha cuteee", "sakiitt mo be",
+    "No", "Are you sure? 🥺", "Priittii pwease?? 🥺👉👈", "u no no lab me na?",
+    "plss plssss 💔", "u brik my hart na!", "sige mamaya na?", "awts lods",
+    "sigee na kasii", "kiiss kitaaa", "ayyy ayawww", "haha cuteee", "sakiitt mo be"
 ];
 
-noBtn.addEventListener('mouseover', () => {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-    noBtn.style.position = 'fixed';
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+function createBackgroundHearts() {
+    const container = document.getElementById('floating-hearts-container');
+    if(!container) return;
+    
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('bg-heart');
+        heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.fontSize = `${Math.random() * 15 + 10}px`;
+        heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
+        
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+    }, 600);
+}
+createBackgroundHearts();
 
-    yesSize += 0.3;
-    yesBtn.style.transform = `scale(${yesSize})`;
+document.addEventListener("click", (e) => {
+    const heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.style.position = "fixed";
+    heart.style.left = e.clientX + "px";
+    heart.style.top = e.clientY + "px";
+    heart.style.fontSize = "20px";
+    heart.style.pointerEvents = "none";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 1000);
+});
+
+const rainContainer = document.getElementById("rain-container");
+let rainInterval;
+
+const drop = document.createElement("div");
+drop.innerHTML = "🌸";
+drop.classList.add("rain-drop");
+drop.style.left = Math.random() * 100 + "vw";
+drop.style.animationDuration = (Math.random() * 2 + 2) + "s";
+rainContainer.appendChild(drop);
+
+setTimeout(() => drop.remove(), 5000);
+
+function stopRain() {
+    rainContainer.style.display = "none";
+    clearInterval(rainInterval);
+    rainContainer.innerHTML = "";
+}
+
+
+function moveNoButton(e) {
+    if(e) e.preventDefault(); 
 
     noClicks++;
     const messageIndex = Math.min(noClicks, messages.length - 1);
     noBtn.innerText = messages[messageIndex];
-    questionText.style.transform = `translateX(${Math.sin(noClicks) * 5}px)`;
-});
+
+    yesScale += 0.25;
+    yesBtn.style.transform = `scale(${yesScale})`;
+
+    questionText.style.transform = `translateX(${Math.sin(noClicks) * 8}px)`;
+    setTimeout(() => { questionText.style.transform = 'translateX(0)'; }, 100);
+
+
+    const padding = 30; 
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+    
+    const randomX = Math.max(padding, Math.random() * maxX);
+    const randomY = Math.max(padding, Math.random() * maxY);
+    
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
+}
+
+noBtn.addEventListener('mouseover', moveNoButton);
+noBtn.addEventListener('touchstart', moveNoButton);
 
 yesBtn.addEventListener('click', () => {
-    
-    bg.classList.add('clear');
-    document.getElementById('question').innerText = "I knew you'd say yes! ❤️";
+
+    questionText.innerText = "I knew you'd say yes! ❤️";
     document.querySelector('.buttons').style.display = 'none';
     
     const gif = document.getElementById('main-gif');
     gif.src = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWltdWJsYWRyOWRuaGZsMHRxYnplajZzOXM2NGV0d2NoYjFoeWczciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/X9wZY0FtBmwHCp8QBm/giphy.gif"; 
 
-    for (let i = 0; i < 100; i++) {
+
+    for (let i = 0; i < 75; i++) {
         createHeartExplosion();
     }
 
 
     setTimeout(() => {
-        const loader = document.getElementById('loading-screen');
-        loader.style.display = 'block';
-
+        loadingScreen.classList.add('active');
+        progressBar.classList.add('loading');
 
         setTimeout(() => {
-            loader.style.display = 'none';
-            document.querySelector('.card').style.display = 'none';
-
-            document.getElementById('final-scene').style.display = 'flex';
-        }, 3000);
-    }, 500); 
+            loadingScreen.classList.remove('active');
+            mainCard.style.opacity = '0';
+            mainCard.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                mainCard.style.display = 'none';
+                finalScene.style.display = 'flex';
+                setTimeout(() => { finalScene.style.opacity = '1'; }, 50);
+            }, 500);
+        }, 2800);
+    }, 1500); 
 });
-
-function openLetter() {
-    alert("hi mahal as you reading this message, you probably gonna look at me like girl you did this? but heack yah, i tried to be as poetically as possible but my goofy ass you more cant. Anyway i would like to express the highest form of gratitude for my beloved wife with 3 healthy kids, as i writing this down i cant think of how much lucky i am to have you, alam mo naman po na im super duper tawsan milyon bilyon trilyon grateful to have you in this fucked up world, paano ba mag long misig hindi ako marunong i kinda think this is nonsense talk of me but anyway this message is only for expressing how much im happi to hab you as my everything, thank you mahal for giving love i was looking for, i write this down and u are sleeping na i constantly looking at your sleepy eyes kasi it so beautiful and calming hihi. i love you so much mahal im happy to be your Valentine this year and for the next next next year and forever kitang iaask to be your Valentine nyaha pangit sulat ko pero dahan dahan to kasi para maganda at ridibul ehe. I sill remember the first time we kissed, so innocent, warm, wonderful, and a bit awkward kasi hindi ako marunong. i never felt that one before and it so special kasi i get it from you (the long time girl I've been waiting for) in that very moment lovie i just closed my eyes and feel your touch, as u kissing me i felt butterflies for the first time and it so so so so calming, it's so genuine and pure. i'll forever be grateful on how u hold my face, my hands, my arms, and how u embrace yourself with me, your kisses, your reassuring words, your warm breath, and the softness of your hands makes think how much lucky i am in this world. Happy valentines mahal, nawawalan na ako ng mga words na sasabihin hihi all i can think and feel is im happy to have you, im happy to be your boyfriend well not yet but i will keep on pursuing you even if sagutin mona ako or magkaanak na tayo whatsoever, hindi ron matatapos yung pang liligaw ko sa'yo, hindi lang hanggang duon but rather i will continue it until my last breath. Im sorry too lovie, for the things na i did hurt you, things na i dont know na it hurts you, things na hindi ko naipaparamdam, things a hindi ko nagagawa kasi im here malayo, things na hindi mo maranasan as normal couple kasi hindi tayo magkatabi, but the thing is thank you kasi you understand my struggles and you let me grow and become matured to know many things na hindi ko alam na need ganito pala, kailangan ganito ganiyan. Thank you mahal, first for loving me endlessly even na im not that perfect you still give the purest and genuine love i could ever feel, second for guiding me towards my success, the lesson u said, the pagsesermon na palagi kong tinatandaan not to be bad but to make it as lesson, third but not the last is that you making me feel so alive ever than before, your prescence, your touch, and your kindness make me the luckiest person in this world. I love you so much love, mahal na mahal kita higit pa sa inaakala mo, i cant wait to live in the same house with you and fulfilling all your dreams kasi all your dreams become my number 1 priority kasi lablab kita hihi. Take care always mahal, im so proud of you my baby big girly, if u think they hate you we hate them the most, if you think no one love you just look at me im here standing looking at you like in the midst of the crowd. I will always look for you, proud for you, take care for you, and love you wholeheartedly no matter what happens ❤, I love you mahal.");
-}
-
-function showPhoto() {
-    document.getElementById('photo-overlay').style.display = 'flex';
-}
 
 function createHeartExplosion() {
     const heart = document.createElement('div');
     heart.classList.add('heart-particle');
-    heart.innerHTML = '❤️';
+    heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+    
     const angle = Math.random() * Math.PI * 2;
-    const distance = 500 + Math.random() * 300; 
+    const distance = 150 + Math.random() * window.innerWidth * 0.4; 
     const x = Math.cos(angle) * distance;
     const y = Math.sin(angle) * distance;
     const rotation = Math.random() * 360;
+    const scale = Math.random() * 0.8 + 0.6;
 
     heart.style.setProperty('--x', `${x}px`);
     heart.style.setProperty('--y', `${y}px`);
     heart.style.setProperty('--r', `${rotation}deg`);
-    heart.style.fontSize = `${Math.random() * 20 + 15}px`;
-    heart.style.animationDelay = `${Math.random() * 0.2}s`;
+    heart.style.setProperty('--s', `${scale}`);
+    heart.style.fontSize = `${Math.random() * 15 + 15}px`;
 
     document.body.appendChild(heart);
-    setTimeout(() => { heart.remove(); }, 1500);
+    setTimeout(() => { heart.remove(); }, 1200);
+}
+
+function openLetter() {
+    const el = document.getElementById('letter-overlay');
+    el.style.display = 'flex';
+    setTimeout(() => el.style.opacity = '1', 10);
+}
+
+function closeLetter() {
+    const el = document.getElementById('letter-overlay');
+    el.style.opacity = '0';
+    setTimeout(() => el.style.display = 'none', 300);
+}
+
+function showPhoto() {
+    const el = document.getElementById('photo-overlay');
+    el.style.display = 'flex';
+    setTimeout(() => el.style.opacity = '1', 10);
+}
+
+function closePhoto() {
+    const el = document.getElementById('photo-overlay');
+    el.style.opacity = '0';
+    setTimeout(() => el.style.display = 'none', 300);
 }
